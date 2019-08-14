@@ -22,6 +22,7 @@ rpm -vi filebeat-7.3.0-x86_64.rpm
 # Execute
 systemctl start elasticsearch.service
 systemctl start kibana.service
+systemctl start filebeat.service
 
 
 # Create pod
