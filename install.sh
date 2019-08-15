@@ -10,19 +10,28 @@ echo `java -version`
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.0-x86_64.rpm
 wget https://artifacts.elastic.co/downloads/kibana/kibana-7.3.0-x86_64.rpm
 wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.3.0-x86_64.rpm
-
+wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.3.0-x86_64.rpm
 
 # Extract
+# /etc/elasticsearch/jvm.options 
 rpm -ivh elasticsearch-7.3.0-x86_64.rpm
 rpm -ivh kibana-7.3.0-x86_64.rpm
-rpm -vi filebeat-7.3.0-x86_64.rpm
+rpm -ivh filebeat-7.3.0-x86_64.rpm
+rpm -ivh metricbeat-7.3.0-x86_64.rpm
 
+# TODO: metricbeat config
+# /etc/metricbeat/metricbeat.yml
+# /etc/metricbeat/modules.d/kubernetes.yml
 
-# Execute
+# Execute EFK
 systemctl start elasticsearch.service
 systemctl start kibana.service
 systemctl start filebeat.service
 
+# MetricBeat
+metricbeat modules enable kubernetes
+metricbeat setup
+systemctl start metricbeat
 
 # Create pod
 kubectl create -f filebeat-kubernetes.yml
